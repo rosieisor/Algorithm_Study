@@ -1,7 +1,3 @@
-// 중복 순열 
-// 1. + 또는 - 중복으로 선택 가능
-// 2. 순서 중요 (- + + + != + - + +)
-
 class Solution {
     
     static int answer = 0;
@@ -14,7 +10,6 @@ class Solution {
             visited = new boolean[numbers.length];
             bfs(0, i, 0, numbers, target);
         }
-        
         return answer;
     }
     
@@ -33,7 +28,6 @@ class Solution {
                 visited[i] = false;
             }
         }
-        
     }
     
     void cal(int[] numbers, int target) {
@@ -57,7 +51,4 @@ class Solution {
         }
         
     }
-    
-    
-    
 }
