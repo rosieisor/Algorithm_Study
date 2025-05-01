@@ -6,47 +6,50 @@ class Solution {
     static Set<Integer> set = new HashSet<>();
     
     public int solution(String numbers) {
-        int answer = 0;
+       
         
-        visited = new boolean[numbers.length()];
-        dfs("", numbers);
-        
-        for(int n : set) {
-            if (!check(n)) {
-                answer++;
-            }
+        for(int i=1; i<=numbers.length(); i++) {
+            visited = new boolean[numbers.length()];
+            dfs(0, i, "", numbers.split(""));
         }
-        
-        return answer;
+            
+        return set.size();
     }
     
-    public boolean check(int num) {
-        if (num < 2) {
-            return true;
-        }
+    static void dfs(int count, int length, String str, String[] numbers) {
         
-        for(int i=2; i<num; i++) {
-            if (num % i == 0) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    public void dfs(String str, String numbers) {
-        
-        if (str.length() > numbers.length()) {
+        if (count == length) {
+            int num = Integer.parseInt(str);
+            isOdd(num);
             return;
         }
         
-        for(int i=0; i<numbers.length(); i++) {
+        for(int i=0; i<numbers.length; i++) {
             if (!visited[i]) {
                 visited[i] = true;
-                set.add(Integer.parseInt(str + numbers.charAt(i)));
-                dfs(str + numbers.charAt(i), numbers);
+                dfs(count + 1, length, str + numbers[i], numbers);
                 visited[i] = false;
             }
         }
+        
+    }
+    
+    static void isOdd(int num) {
+        
+        boolean even = false;
+                
+        if (num <= 2) {
+            if (num != 2)
+                even = true;
+        } else {
+            for(int i=2; i < num; i++) 
+                if(num % i == 0) {
+                    even = true;
+                    break;
+                }
+        }
+            
+        if (even ==  false && num > 1) 
+            set.add(num);
     }
 }
