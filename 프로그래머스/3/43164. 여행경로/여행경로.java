@@ -1,69 +1,31 @@
-import java.util.*;
-
-class Airport {
-    String end;
-    boolean visited;
-    
-    Airport(String end) {
-        this.end = end;
-        this.visited = false;
-    }
-}
-
 class Solution {
-    
-    static Map<String, List<Airport>> map = new HashMap<>();
-    static List<String> routes;
+    boolean[] visited;
+    String result;
     
     public String[] solution(String[][] tickets) {
-        init(tickets);
-        routes.add("ICN");
-        dfs("ICN");
         
+        visited = new boolean[tickets.length];
         
-        String[] answer = new String[routes.size()];
-        int index = 0;
+        dfs(0, "ICN", "ICN ", tickets);
         
-        for (String s : routes) {
-            answer[index++] = s;
-        }
-    
+        String[] answer = result.split(" ");
         return answer;
     }
     
-    public void dfs(String start) {
-        if (map.get(start) == null) {
+    public void dfs(int pick, String start, String str, String[][] tickets) {
+        if (pick == tickets.length) {
+            if (result == null || result.compareTo(str) > 0) {
+                result = str;
+            } 
             return;
         }
         
-        List<Airport> airports = map.get(start);
-        
-        for(Airport a : airports) {
-            if (!a.visited) {
-                a.visited = true;
-                routes.add(a.end);
-                dfs(a.end);
-            }
-        }
-    }
-    
-    public void init(String[][] tickets) {
-        map = new HashMap<>();
-        routes = new ArrayList<>();
-        
         for(int i=0; i<tickets.length; i++) {
-            if (map.get(tickets[i][0]) == null) {
-                List<Airport> list = new ArrayList<>();
-                list.add(new Airport(tickets[i][1]));
-                
-                map.put(tickets[i][0], list);
-            } else {
-                map.get(tickets[i][0]).add(new Airport(tickets[i][1]));
+            if (!visited[i] && tickets[i][0].equals(start)) {
+                visited[i] = true;
+                dfs(pick + 1, tickets[i][1], str + tickets[i][1] +" " , tickets);
+                visited[i] = false;
             }
-        }
-        
-        for(String key : map.keySet()) {
-            Collections.sort(map.get(key), (o1, o2) -> o1.end.compareTo(o2.end));
         }
     }
 }
