@@ -4,6 +4,8 @@ import java.io.*;
 class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        StringBuilder sb = new StringBuilder();
 
         String S = br.readLine();
 
@@ -37,10 +39,14 @@ class Main {
             int[] arr = map.get(a);
 
             if (start > 0) {
-                System.out.println(arr[end] - arr[start-1]);
+                sb.append(arr[end] - arr[start-1]);
             } else {
-                System.out.println(arr[end]);
+                sb.append(arr[end]);
             }
+            
+            sb.append("\n");
         }
+        
+        System.out.println(sb.toString());
     }
 }
